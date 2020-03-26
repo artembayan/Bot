@@ -45,7 +45,7 @@
       <tr>
         <td><textarea id="req" type="text" name="requisites" size="2" placeholder="Реквизиты" class="form-control">
         </textarea>
-        <script type="text/javascript">document.getElementById('req').value = "<?= isset($_GET['red_requisitesid']) ? $req['requisites'] : ''; ?>";</script>
+        <!--<script type="text/javascript">document.getElementById('req').value = "<?= isset($_GET['red_requisitesid']) ? $req['requisites'] : ''; ?>";</script>-->
         </td>
          <td colspan="2"><input type="submit" class="btn btn-success" value="OK"></td>
       </tr>
@@ -56,7 +56,7 @@
     <tr>
       <th>Реквизиты</th>
       <th width="10%">Удаление</th>
-      <th width="10%">Редактирование</th>
+      <!--<th width="10%">Редактирование</th>-->
     </tr>
   </thead>
     <br>
@@ -66,7 +66,7 @@
         echo '<tr>' .
              "<td>{$result['requisites']}</td>" .
              "<td><a style=\"text-decoration: none;\" href='?del_requisitesid={$result['req_ID']}'><button class=\"btn btn-outline-danger\" style=\"display: flex; margin: auto;\">Удалить</button></a></td>" .
-             "<td><a  style=\"text-decoration: none;\" href='?red_requisitesid={$result['req_ID']}'><button class=\"btn btn-outline-info\" style=\"display: flex; margin: auto;\">Изменить</button></a></td>" .
+             //"<td><a  style=\"text-decoration: none;\" href='?red_requisitesid={$result['req_ID']}'><button class=\"btn btn-outline-info\" style=\"display: flex; margin: auto;\">Изменить</button></a></td>" .
              '</tr>';
       }
 ?>

@@ -31,10 +31,10 @@
 
     if (isset($_GET['red_hoursid'])) {// Передаем данные редактируемого товара в поля
     $id = trim($_GET['red_hoursid']);
-    $sql =  ("SELECT hours FROM working_hours WHERE hours_ID=?");
+    $sql = ("SELECT hours FROM working_hours WHERE hours_ID=?");
     $query = $pdo->prepare($sql);
     $query->execute(array($id));
-    $hour = $query->fetch(PDO::FETCH_LAZY);
+    $hour = $query->fetch();
     }
 ?>
 <div class="container">
@@ -44,8 +44,8 @@
       <tr>
         <td><textarea type="text" id="hour" name="hours" size="2" placeholder="Режим работы" class="form-control">
         </textarea>
-        <script type="text/javascript">document.getElementById('hour').value = "<?= isset($_GET['red_hoursid']) ? $hour['hours'] : ''; ?>";</script>
         </td>
+                <!--<script type="text/javascript">document.getElementById('hour').value = "<?= isset($_GET['red_hoursid']) ? $hour['hours'] : ''; ?>";</script>-->
          <td colspan="2"><input type="submit" class="btn btn-success" value="OK"></td>
       </tr>
     </table>
@@ -55,7 +55,7 @@
     <tr>
       <th>Режим работы</th>
       <th width="10%">Удаление</th>
-      <th width="10%">Редактирование</th>
+      <!--<th width="10%">Редактирование</th>-->
     </tr>
   </thead>
     <br>
@@ -65,7 +65,7 @@
         echo '<tr>' .
              "<td>{$result['hours']}</td>" .
              "<td><a style=\"text-decoration: none;\" href='?del_hoursid={$result['hours_ID']}'><button class=\"btn btn-outline-danger\" style=\"display: flex; margin: auto;\">Удалить</button></a></td>" .
-             "<td><a  style=\"text-decoration: none;\" href='?red_hoursid={$result['hours_ID']}'><button class=\"btn btn-outline-info\" style=\"display: flex; margin: auto;\">Изменить</button></a></td>" .
+             //"<td><a  style=\"text-decoration: none;\" href='?red_hoursid={$result['hours_ID']}'><button class=\"btn btn-outline-info\" style=\"display: flex; margin: auto;\">Изменить</button></a></td>" .
              '</tr>';
       }
 ?>
