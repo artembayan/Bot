@@ -45,7 +45,7 @@ for event in longpoll.listen():
                                                                      '6. Реквизиты ЦМИТ\n 7. Отслеживание заказа \n '
                                                                      , keyboard=keyboard, random_id=0)
 
-        elif response == "продукция цмит" or response==str('1'):
+        elif response == "продукция" or response==str('1'):
             with connectDB.connect.cursor() as cursor:
                 cursor.execute("""select Name, Price from Products;""")
                 showinfo = ''
@@ -64,7 +64,7 @@ for event in longpoll.listen():
                     showinfo = showinfo + info + '\n'
             session_api.messages.send(user_id=event.user_id, message='Прайс-лист:\n' + '\n' +showinfo, keyboard=keyboard, random_id=0)
 
-        elif response == "курсы цмит" or response==str('3'):
+        elif response == "курсы" or response==str('3'):
             with connectDB.connect.cursor() as cursor:
                 cursor.execute("""SELECT name, price, FIO, schedule FROM staff RIGHT JOIN courses ON staff.staff_ID=courses.teacher;""")
                 rows=cursor.fetchall()
@@ -76,7 +76,7 @@ for event in longpoll.listen():
             session_api.messages.send(user_id=event.user_id, message='Расписание и стоимость курсов ЦМИТ:\n' + '\n' +showinfo,
                                       keyboard=keyboard, random_id=0)
 
-        elif response == "режим работы цмит" or response==str('4'):
+        elif response == "режим работы" or response==str('4'):
             with connectDB.connect.cursor() as cursor:
                 cursor.execute("""SELECT hours FROM working_hours;""")
                 info=cursor.fetchone()
@@ -95,7 +95,7 @@ for event in longpoll.listen():
             session_api.messages.send(user_id=event.user_id, message='Контакты сотрудников:\n' + '\n' +showinfo, keyboard=keyboard,
                                       random_id=0)
 
-        elif response == "реквизиты цмит" or response==str('6'):
+        elif response == "реквизиты" or response==str('6'):
             with connectDB.connect.cursor() as cursor:
                 cursor.execute("""SELECT requisites FROM requisites;""")
                 info=cursor.fetchone()
