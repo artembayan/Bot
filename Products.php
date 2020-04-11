@@ -13,7 +13,7 @@
           $name = trim($_POST["Name"]);
           $price = trim($_POST["Price"]);
           $id = trim($_GET['red_id']); 
-          $sql = "UPDATE `products` SET name=?, price=?  WHERE ID=?";
+          $sql = "UPDATE `products` SET name=?, price=?  WHERE product_ID=?";
           $query = $pdo->prepare($sql);
           $query->execute(array($name, $price, $id));
           redirect_to('/index.php');
@@ -33,7 +33,7 @@
 
     if (isset($_GET['del_id'])) {//Удалем уже существующую запись
     $id = trim($_GET['del_id']); 
-    $sql = "DELETE FROM products WHERE ID=?";
+    $sql = "DELETE FROM products WHERE product_ID=?";
     $query = $pdo->prepare($sql);
     $query->execute(array($id));
     redirect_to('/index.php');
@@ -41,7 +41,7 @@
 
     if (isset($_GET['red_id'])) {// Передаем данные редактируемого товара в поля
     $id = trim($_GET['red_id']);
-    $sql =  ("SELECT ID, Name, Price FROM products WHERE ID=?");
+    $sql =  ("SELECT product_ID, Name, Price FROM products WHERE product_ID=?");
     $query = $pdo->prepare($sql);
     $query->execute(array($id));
     $product = $query->fetch(PDO::FETCH_LAZY);
@@ -75,14 +75,14 @@
   </thead>
     <br>
 <?php
-      $sql = $pdo->query('SELECT `ID`, `Name`, `Price` FROM products');
+      $sql = $pdo->query('SELECT `product_ID`, `Name`, `Price` FROM products');
       while ($result = $sql->fetch()) {//Заполнение полей таблицы данными из БД
         echo '<tr>' .
              //"<td>{$result['ID']}</td>" .
              "<td>{$result['Name']}</td>" .
              "<td>{$result['Price']} ₽</td>" .
-             "<td><a style=\"text-decoration: none;\" href='?del_id={$result['ID']}'><button class=\"btn btn-outline-danger\" style=\"display: flex; margin: auto;\">Удалить</button></a></td>" .
-             "<td><a  style=\"text-decoration: none;\" href='?red_id={$result['ID']}'><button class=\"btn btn-outline-info\" style=\"display: flex; margin: auto;\">Изменить</button></a></td>" .
+             "<td><a style=\"text-decoration: none;\" href='?del_id={$result['product_ID']}'><button class=\"btn btn-outline-danger\" style=\"display: flex; margin: auto;\">Удалить</button></a></td>" .
+             "<td><a  style=\"text-decoration: none;\" href='?red_id={$result['product_ID']}'><button class=\"btn btn-outline-info\" style=\"display: flex; margin: auto;\">Изменить</button></a></td>" .
              '</tr>';
       }
 ?>

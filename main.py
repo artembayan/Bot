@@ -13,16 +13,16 @@ longpoll = VkLongPoll(vk_session)
 def create_keyboard(response):
     keyboard = VkKeyboard(one_time=False)
 
-    keyboard.add_button('Продукция ЦМИТ', color=VkKeyboardColor.DEFAULT)
+    keyboard.add_button('Продукция', color=VkKeyboardColor.DEFAULT)
     keyboard.add_button('Прайс-лист', color=VkKeyboardColor.DEFAULT)
 
     keyboard.add_line()  # Переход на вторую строку
-    keyboard.add_button('Курсы ЦМИТ', color=VkKeyboardColor.DEFAULT)
-    keyboard.add_button('Режим работы ЦМИТ', color=VkKeyboardColor.DEFAULT)
+    keyboard.add_button('Курсы', color=VkKeyboardColor.DEFAULT)
+    keyboard.add_button('Контакты', color=VkKeyboardColor.DEFAULT)
 
     keyboard.add_line()
-    keyboard.add_button('Контакты', color=VkKeyboardColor.DEFAULT)
-    keyboard.add_button('Реквизиты ЦМИТ', color=VkKeyboardColor.DEFAULT)
+    keyboard.add_button('Режим работы', color=VkKeyboardColor.DEFAULT)
+    keyboard.add_button('Реквизиты', color=VkKeyboardColor.DEFAULT)
 
     keyboard.add_line()
     keyboard.add_button('Отслеживание заказа', color=VkKeyboardColor.POSITIVE)
@@ -48,9 +48,9 @@ for event in longpoll.listen():
         elif response == "продукция цмит" or response==str('1'):
             with connectDB.connect.cursor() as cursor:
                 cursor.execute("""select Name, Price from Products;""")
-                showinfo = ''  # ИСПРАВИТЬ ЭТО ГОВНО
+                showinfo = ''
                 for row in cursor:
-                    info = row['Name'] + ' — ' + str(row['Price']) + " руб."
+                    info = '🔹' + row['Name'] + ' — ' + str(row['Price']) + " руб."
                     showinfo = showinfo + info + '\n'
                 session_api.messages.send(user_id=event.user_id, message="Продукция ЦМИТ:\n" + '\n' +showinfo, keyboard=keyboard, random_id=0)
             cursor.close()
@@ -58,9 +58,9 @@ for event in longpoll.listen():
         elif response == "прайс-лист" or response==str('2'):
             with connectDB.connect.cursor() as cursor:
                 cursor.execute("""select service_name, service_price from services;""")
-                showinfo = ''  # ИСПРАВИТЬ ЭТО ГОВНО
+                showinfo = ''
                 for row in cursor:
-                    info = row['service_name'] + ' — ' + str(row['service_price']) + " руб."
+                    info = '🔹' + row['service_name'] + ' — ' + str(row['service_price']) + " руб."
                     showinfo = showinfo + info + '\n'
             session_api.messages.send(user_id=event.user_id, message='Прайс-лист:\n' + '\n' +showinfo, keyboard=keyboard, random_id=0)
 
@@ -70,8 +70,8 @@ for event in longpoll.listen():
                 rows=cursor.fetchall()
                 showinfo = ''
                 for row in rows:
-                    info = ('Название курса: ' + row['name'] + '\nСтоимость: ' + str(row['price']) + " руб." + "\nПреподаватель: " + str(row['FIO'])
-                          + '\nРасписание: '  + str(row['schedule']))
+                    info = ('📚 Название курса: ' + row['name'] + '\n💳 Стоимость: ' + str(row['price']) + " руб."
+                            + "\n👨‍🏫Преподаватель: " + str(row['FIO']) + '\n⌚Расписание: '  + str(row['schedule']))
                     showinfo = showinfo + info + '\n' + '\n'
             session_api.messages.send(user_id=event.user_id, message='Расписание и стоимость курсов ЦМИТ:\n' + '\n' +showinfo,
                                       keyboard=keyboard, random_id=0)
@@ -89,8 +89,8 @@ for event in longpoll.listen():
                 rows=cursor.fetchall()
                 showinfo = ''
                 for row in rows:
-                    info = ('Преподаватель: ' + row['FIO'] + '\nДолжность: ' + str(row['post']) + "\nE-mail: " + str(row['email'])
-                    + '\nТелефон: ' + str(row['phone']))
+                    info = ('👨‍🏫 Преподаватель: ' + row['FIO'] + '\n💼 Должность: ' + str(row['post']) + "\n📬 E-mail: " + str(row['email'])
+                    + '\n📱 Телефон: ' + str(row['phone']))
                     showinfo = showinfo + info + '\n' + '\n'
             session_api.messages.send(user_id=event.user_id, message='Контакты сотрудников:\n' + '\n' +showinfo, keyboard=keyboard,
                                       random_id=0)
@@ -115,8 +115,8 @@ for event in longpoll.listen():
                                 session_api.messages.send(user_id=event.user_id, message='Заказа с таким номером не существует :(', keyboard=keyboard, random_id=0)
                             showinfo = ''
                             for row in rows:
-                                info = ('Заказ: ' + str(row['service_name']) + "\nИсполнитель: " + str(row['FIO'])
-                                        + '\nСтатус: ' + str(row['status']) + '\nДата готовности: ' + str(row['ready_date']))
+                                info = ('📝 Заказ: ' + str(row['service_name']) + "\n👨‍💻 Исполнитель: " + str(row['FIO'])
+                                        + '\n🔎 Статус: ' + str(row['status']) + '\n📅 Дата готовности: ' + str(row['ready_date']))
                                 showinfo = showinfo + info + '\n'
                                 session_api.messages.send(user_id=event.user_id, message=str(showinfo), keyboard=keyboard,
                                               random_id=0)
