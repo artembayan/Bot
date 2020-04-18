@@ -2,10 +2,10 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 import vk_api
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 import connectDB
+import data
 
-
-token = "95f107cd1d9d0652e224c8a1ba1da2c027eba29920b294d919df2787676963e63439ad9b2b6fc584896ff"
-vk_session = vk_api.VkApi(token=token)
+token = data.token
+vk_session = vk_api.VkApi(token=token)#Импорт токена группы
 session_api = vk_session.get_api()
 longpoll = VkLongPoll(vk_session)
 
@@ -78,14 +78,14 @@ for event in longpoll.listen():
 
         elif response == "режим работы" or response==str('4'):
             with connectDB.connect.cursor() as cursor:
-                cursor.execute("""SELECT hours FROM working_hours;""")
+                cursor.execute("""SELECT * FROM working_hours;""")
                 info=cursor.fetchone()
             session_api.messages.send(user_id=event.user_id, message='Режим работы ЦМИТ:\n' + '\n' +str(info['hours']), keyboard=keyboard,
                                       random_id=0)
 
         elif response == "контакты" or response==str('5'):
             with connectDB.connect.cursor() as cursor:
-                cursor.execute("""SELECT FIO, post, email, phone  FROM staff;""")
+                cursor.execute("""SELECT * FROM staff;""")
                 rows=cursor.fetchall()
                 showinfo = ''
                 for row in rows:

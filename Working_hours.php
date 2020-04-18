@@ -29,21 +29,20 @@
     redirect_to('/index.php');
     }
 
-    if (isset($_GET['red_hoursid'])) {// Передаем данные редактируемого товара в поля
+    /*if (isset($_GET['red_hoursid'])) {// Передаем данные редактируемого товара в поля
     $id = trim($_GET['red_hoursid']);
     $sql = ("SELECT hours FROM working_hours WHERE hours_ID=?");
     $query = $pdo->prepare($sql);
     $query->execute(array($id));
     $hour = $query->fetch();
-    }
+    }*/
 ?>
-<div class="container">
+<div>
 <p><b>Режим работы ЦМИТ</b></p>
    <form action="" method="post">
     <table>
       <tr>
-        <td><textarea type="text" id="hour" name="hours" size="2" placeholder="Режим работы" class="form-control">
-        </textarea>
+        <td><textarea type="text" id="hour" name="hours" size="2" placeholder="Режим работы" class="form-control"></textarea>
         </td>
                 <!--<script type="text/javascript">document.getElementById('hour').value = "<?= isset($_GET['red_hoursid']) ? $hour['hours'] : ''; ?>";</script>-->
          <td colspan="2"><input type="submit" class="btn btn-success" value="OK"></td>

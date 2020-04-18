@@ -1,9 +1,4 @@
 <?php  
-    function redirect_to($new_location) {//функция для отмены повторной отправки формы
-    header("Location: " . $new_location);//(редирект)
-    exit();
-    }
-
     include('ConnectDB.php');
     
     //Если переменная Name передана
@@ -18,6 +13,7 @@
           $query->execute(array($name, $price, $id));
           redirect_to('/index.php');
       } 
+      
 
       else {//Если НЕ запрос на обновление, то добавляем новую запись
           $sql = ("INSERT INTO products (Name, Price) VALUES (:name, :price)");
@@ -48,7 +44,7 @@
     }
 ?>
 
-<div class="container">
+<div>
 <p><b>Готовые изделия ЦМИТ</b></p>
    <form action="" method="post">
     <table>
