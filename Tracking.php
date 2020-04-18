@@ -44,7 +44,7 @@
     }
 ?>
 
-<div class="container">
+<div>
 <p><b>Отслеживание заказа</b></p>
    <form action="" method="post">
 

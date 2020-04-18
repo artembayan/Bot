@@ -44,7 +44,7 @@ error_reporting(E_ALL);
 ?>
 
 
-<div class="container">
+<div>
   <p><b>Услуги ЦМИТ</b></p>
    <form action="" method="post">
     <table>

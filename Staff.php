@@ -48,7 +48,7 @@
     }
 ?>
 
-<div class="container">
+<div>
 <p><b>Контакты сотрудников ЦМИТ</b></p>
    <form action="" method="post">
     <table>

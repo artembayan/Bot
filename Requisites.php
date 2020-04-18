@@ -29,23 +29,22 @@
     redirect_to('/index.php');
     }
 
-    if (isset($_GET['red_requisitesid'])) {// Передаем данные редактируемого товара в поля
+   /* if (isset($_GET['red_requisitesid'])) {// Передаем данные редактируемого товара в поля
     $id = trim($_GET['red_requisitesid']);
     $sql =  ("SELECT req_ID, requisites FROM requisites WHERE req_ID=?");
     $query = $pdo->prepare($sql);
     $query->execute(array($id));
     $req = $query->fetch(PDO::FETCH_LAZY);
-    }
+    }*/
 ?>
 
-<div class="container">
+<div>
 <p><b>Реквизиты ЦМИТ</b></p>
    <form action="" method="post">
     <table>
       <tr>
-        <td><textarea id="req" type="text" name="requisites" size="2" placeholder="Реквизиты" class="form-control">
-        </textarea>
-        <!--<script type="text/javascript">document.getElementById('req').value = "<?= isset($_GET['red_requisitesid']) ? $req['requisites'] : ''; ?>";</script>-->
+        <td>
+        <textarea class="form-control" id="req" type="text" name="requisites" size="2" placeholder="Реквизиты" ></textarea>
         </td>
          <td colspan="2"><input type="submit" class="btn btn-success" value="OK"></td>
       </tr>

@@ -45,7 +45,7 @@
     }
 ?>
 
-<div class="container">
+<div>
 <p><b>Курсы ЦМИТ</b></p>
    <form action="" method="post">
     <table>
