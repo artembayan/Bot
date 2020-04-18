@@ -1,4 +1,7 @@
+data.py
 venv/
 __pycache__
 .idea
-data.py
+.vscode
+
+
