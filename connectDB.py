@@ -12,8 +12,3 @@ connect = pymysql.connect(host='localhost',
                           cursorclass=pymysql.cursors.DictCursor
                           )
 
-# with connect.cursor() as cursor:
-#     cursor.execute("""show tables""")
-#     print(cursor.fetchall())
-#     cursor.execute("""insert into Products (Name, Price) values('фак', 22), ("ю", 21), ("бич", 23)""")
-# connect.commit()

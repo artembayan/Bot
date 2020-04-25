@@ -1,3 +1,5 @@
+import string
+
 from vk_api.longpoll import VkLongPoll, VkEventType
 import vk_api
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
@@ -10,7 +12,7 @@ session_api = vk_session.get_api()
 longpoll = VkLongPoll(vk_session)
 
 
-def create_keyboard(response):
+def create_keyboard(response):#Создание клавиатуры меню
     keyboard = VkKeyboard(one_time=False)
 
     keyboard.add_button('Продукция', color=VkKeyboardColor.DEFAULT)
@@ -33,14 +35,16 @@ def create_keyboard(response):
 
 
 for event in longpoll.listen():
+
     if event.type == VkEventType.MESSAGE_NEW and not event.from_me:
         response = event.text.lower()
         keyboard = create_keyboard(response)
         print('Текст сообщения: ' + str(response))
+
         if response == 'начать' or response == 'привет' or response == 'start' or response == '/start':
             session_api.messages.send(user_id=event.user_id, message='Привет! Я бот-помощник ЦМИТ "ЛЮКС". '
-                                                                     'Чем могу помочь? \n 1. Продукция ЦМИТ\n '
-                                                                     '2. Прайс-лист\n 3. Расписание и стоимость курсов ЦМИТ\n'
+                                                                     'Что вас интересует? \n 1. Продукция ЦМИТ\n '
+                                                                     '2. Прайс-лист на услуги\n 3. Расписание и стоимость курсов\n'
                                                                      ' 4. Режим работы\n 5. Контакты сотрудников\n '
                                                                      '6. Реквизиты ЦМИТ\n 7. Отслеживание заказа \n '
                                                                      , keyboard=keyboard, random_id=0)
@@ -78,9 +82,15 @@ for event in longpoll.listen():
 
         elif response == "режим работы" or response==str('4'):
             with connectDB.connect.cursor() as cursor:
-                cursor.execute("""SELECT * FROM working_hours;""")
+                cursor.execute("""SELECT hours FROM working_hours;""")
                 info=cursor.fetchone()
-            session_api.messages.send(user_id=event.user_id, message='Режим работы ЦМИТ:\n' + '\n' +str(info['hours']), keyboard=keyboard,
+                string = info.get('hours')
+                list=string.split('\n')
+                showinfo = ''
+                for element in list:
+                    info = ('🔹' + element)
+                    showinfo = showinfo + info + '\n'
+            session_api.messages.send(user_id=event.user_id, message='Режим работы ЦМИТ:\n' + '\n' +showinfo, keyboard=keyboard,
                                       random_id=0)
 
         elif response == "контакты" or response==str('5'):
@@ -89,7 +99,7 @@ for event in longpoll.listen():
                 rows=cursor.fetchall()
                 showinfo = ''
                 for row in rows:
-                    info = ('👨‍🏫 Преподаватель: ' + row['FIO'] + '\n💼 Должность: ' + str(row['post']) + "\n📬 E-mail: " + str(row['email'])
+                    info = ('👨‍🏫 ' + row['FIO'] + '\n💼 Должность: ' + str(row['post']) + "\n📬 E-mail: " + str(row['email'])
                     + '\n📱 Телефон: ' + str(row['phone']))
                     showinfo = showinfo + info + '\n' + '\n'
             session_api.messages.send(user_id=event.user_id, message='Контакты сотрудников:\n' + '\n' +showinfo, keyboard=keyboard,
@@ -98,11 +108,17 @@ for event in longpoll.listen():
         elif response == "реквизиты" or response==str('6'):
             with connectDB.connect.cursor() as cursor:
                 cursor.execute("""SELECT requisites FROM requisites;""")
-                info=cursor.fetchone()
-            session_api.messages.send(user_id=event.user_id, message='Реквизиты ЦМИТ:\n' + '\n' +str(info['requisites']), keyboard=keyboard, random_id=0)
+                info = cursor.fetchone()
+                string = info.get('requisites')
+                list = string.split('\n')
+                showinfo = ''
+                for element in list:
+                    info = ('🔹' + element)
+                    showinfo = showinfo + info + '\n'
+            session_api.messages.send(user_id=event.user_id, message='Реквизиты ЦМИТ:\n' + '\n' +showinfo, keyboard=keyboard, random_id=0)
 
         elif response == "отслеживание заказа" or response==str('7'):
-            session_api.messages.send(user_id=event.user_id, message='Введите номер заказа:', keyboard=keyboard,
+            session_api.messages.send(user_id=event.user_id, message='📝Введите номер заказа:', keyboard=keyboard,
                                       random_id=0)
             for event in longpoll.listen():
                    if event.type == VkEventType.MESSAGE_NEW and not event.from_me:
@@ -112,7 +128,7 @@ for event in longpoll.listen():
                             ON services.service_ID = tracking.service join staff ON staff.staff_ID = tracking.employee WHERE order_ID = %s""", order)
                             rows = cursor.fetchall()
                             if a == 0:
-                                session_api.messages.send(user_id=event.user_id, message='Заказа с таким номером не существует :(', keyboard=keyboard, random_id=0)
+                                session_api.messages.send(user_id=event.user_id, message='Заказа с таким номером не существует😞', keyboard=keyboard, random_id=0)
                             showinfo = ''
                             for row in rows:
                                 info = ('📝 Заказ: ' + str(row['service_name']) + "\n👨‍💻 Исполнитель: " + str(row['FIO'])
@@ -124,3 +140,4 @@ for event in longpoll.listen():
                             break
         else:
             session_api.messages.send(user_id=event.user_id, message='Я вас не понимаю!', keyboard=keyboard, random_id=0)
+
