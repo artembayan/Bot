@@ -59,13 +59,13 @@ exit();
 ?> 
 
 <div class="tab-content" id="Tabs">
-  <div class="tab-pane active container" id="Products"><?php include('app/Products.php'); //Подключение файла с готовыми изделиями?></div>
-  <div class="tab-pane container" id="Services"><?php include('Services.php'); //Подключение файла с улугами ?></div>
-  <div class="tab-pane container" id="Staff"><?php include('Staff.php'); //Подключение файла с сотрудниками ?></div>
-  <div class="tab-pane container" id="Courses"><?php include('Courses.php'); //Подключение файла со курсами ?></div>
-  <div class="tab-pane container" id="Tracking"><?php include('Tracking.php'); // Подключение файла с отслеживанием заказов ?></div>
-  <div class="tab-pane container" id="Working_hours"><?php include('Working_hours.php'); // Подключение файла с режимом работы ?></div>
-  <div class="tab-pane container" id="Requisites"><?php include('Requisites.php'); // Подключение файла с реквизитами ?></div>  
+  <div class="tab-pane active container" id="Products"><?php include('./Products.php'); //Подключение файла с готовыми изделиями?></div>
+  <div class="tab-pane container" id="Services"><?php include('./Services.php'); //Подключение файла с улугами ?></div>
+  <div class="tab-pane container" id="Staff"><?php include('./Staff.php'); //Подключение файла с сотрудниками ?></div>
+  <div class="tab-pane container" id="Courses"><?php include('./Courses.php'); //Подключение файла со курсами ?></div>
+  <div class="tab-pane container" id="Tracking"><?php include('./Tracking.php'); // Подключение файла с отслеживанием заказов ?></div>
+  <div class="tab-pane container" id="Working_hours"><?php include('./Working_hours.php'); // Подключение файла с режимом работы ?></div>
+  <div class="tab-pane container" id="Requisites"><?php include('./Requisites.php'); // Подключение файла с реквизитами ?></div>
 
 
 

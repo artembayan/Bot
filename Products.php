@@ -1,5 +1,5 @@
 <?php  
-    include('ConnectDB.php');
+    include('./ConnectDB.php');
     
     //Если переменная Name передана
     if (isset($_POST["Name"])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
@@ -46,7 +46,7 @@
     $product = $query->fetch(PDO::FETCH_LAZY);
     }
 ?>
- <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+
   	
 <div>
 <p><b>Готовые изделия ЦМИТ</b></p>
