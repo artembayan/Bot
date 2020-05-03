@@ -91,7 +91,7 @@
       <th width="10%">Редактирование</th>
     </tr>
   </thead>
-    <br>
+    <br/>
 <?php
       $sql = $pdo->query('SELECT * FROM services join tracking ON services.service_ID = tracking.service join staff ON staff.staff_ID = tracking.employee');
       while ($result = $sql->fetch()) {//Заполнение полей таблицы данными из БД
@@ -108,5 +108,5 @@
       
 ?>
   </table>
-</br>
+<br/>
 </div>

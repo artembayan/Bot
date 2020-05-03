@@ -58,7 +58,7 @@
       <!--<th width="10%">Редактирование</th>-->
     </tr>
   </thead>
-    <br>
+    <br/>
 <?php
       $sql = $pdo->query('SELECT req_ID, requisites FROM requisites');
       while ($result = $sql->fetch()) {//Заполнение полей таблицы данными из БД
@@ -70,5 +70,5 @@
       }
 ?>
   </table>
-</br>
+<br/>
 </div>

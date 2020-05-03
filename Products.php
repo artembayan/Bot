@@ -11,7 +11,7 @@
           $sql = "UPDATE `products` SET name=?, price=?  WHERE product_ID=?";
           $query = $pdo->prepare($sql);
           $query->execute(array($name, $price, $id));
-          redirect_to('/index.php');
+          redirect_to('index.php');
       } 
       
 
@@ -21,8 +21,11 @@
           $price = trim($_POST["Price"]);
           $params = [':name' => $name, ':price' => $price];
           $query = $pdo->prepare($sql);
-          $query->execute($params);
-          redirect_to('/index.php');
+          $result = $query->execute($params);
+          //echo (json_encode($params));
+          //header('Content-Type: application/json');
+          //var_dump($data);
+          redirect_to('index.php');
       }
 
     }
@@ -32,7 +35,7 @@
     $sql = "DELETE FROM products WHERE product_ID=?";
     $query = $pdo->prepare($sql);
     $query->execute(array($id));
-    redirect_to('/index.php');
+    redirect_to('index.php');
     }
 
     if (isset($_GET['red_id'])) {// Передаем данные редактируемого товара в поля
@@ -43,10 +46,12 @@
     $product = $query->fetch(PDO::FETCH_LAZY);
     }
 ?>
-
+ <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+  	
 <div>
 <p><b>Готовые изделия ЦМИТ</b></p>
-   <form action="" method="post">
+
+<form action="" method="post">
     <table>
       <tr>
 
@@ -59,17 +64,20 @@
       </tr>
     </table>
   </form>
+    
+ 
   <table class="table table-bordered" border='1'>
     <thead>
     <tr>
-      
       <th>Наименование</th>
       <th>Цена</th>
       <th width="10%">Удаление</th>
       <th width="10%">Редактирование</th>
     </tr>
   </thead>
-    <br>
+    <br/>
+
+
 <?php
       $sql = $pdo->query('SELECT `product_ID`, `Name`, `Price` FROM products');
       while ($result = $sql->fetch()) {//Заполнение полей таблицы данными из БД
@@ -83,5 +91,5 @@
       }
 ?>
   </table>
-</br>
+<br/>
 </div>

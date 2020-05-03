@@ -13,3 +13,11 @@ table {
 	text-align: center;
 
 }
+/*
+.tab-pane {
+  display: none;
+}
+.tab-pane:target {
+  display: block;
+}
+*/

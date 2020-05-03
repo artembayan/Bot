@@ -86,7 +86,7 @@
       <th width="10%">Редактирование</th>
     </tr>
   </thead>
-    <br>
+    <br/>
 <?php
       $sql1 = $pdo->query('SELECT * FROM staff RIGHT JOIN courses ON staff.staff_ID=courses.teacher');
       $sql = $pdo->query('SELECT course_ID, name, price, schedule, teacher FROM courses');
@@ -104,5 +104,5 @@
       
 ?>
   </table>
-</br>
+<br/>
 </div>

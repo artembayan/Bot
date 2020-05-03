@@ -12,7 +12,7 @@ error_reporting(E_ALL);
           $sql = "UPDATE services SET service_name=?, service_price=?  WHERE service_ID=?";
           $query = $pdo->prepare($sql);
           $query->execute(array($service_name, $service_price, $id));
-          redirect_to('/index.php');
+          redirect_to('index.php');
       } 
       else {//Если НЕ запрос на обновление, то добавляем новую запись
           $sql = ("INSERT INTO services (service_name, service_price) VALUES (:service_name, :service_price)");
@@ -21,7 +21,7 @@ error_reporting(E_ALL);
           $params = [':service_name' => $service_name, ':service_price'=>$service_price];
           $query = $pdo->prepare($sql);
           $query->execute($params);
-          redirect_to('/index.php');
+          redirect_to('index.php');
       }
 
     }
@@ -31,7 +31,7 @@ error_reporting(E_ALL);
     $sql = "DELETE FROM services WHERE service_ID=?";
     $query = $pdo->prepare($sql);
     $query->execute(array($id));
-    redirect_to('/index.php');
+    redirect_to('index.php');
     }
 
     if (isset($_GET['red_serviceid'])) {// Передаем данные редактируемого товара в поля
@@ -69,7 +69,7 @@ error_reporting(E_ALL);
       <th width="10%">Редактирование</th>
     </tr>
   </thead>
-</br>
+<br/>
 <?php
       $sql1 = $pdo->query("SELECT service_ID, service_name, service_price FROM services");
       while ($service_result = $sql1->fetch()) {//Заполнение полей таблицы данными из БД
@@ -83,6 +83,6 @@ error_reporting(E_ALL);
       }      
 ?>
   </table>
-  </br>
+  <br/>
 </div>
 
