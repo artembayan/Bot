@@ -1,5 +1,5 @@
-<?php    //Если переменная hours передана
-    if (isset($_POST["hours"])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
+<?php
+    if (isset($_POST["hours"])) { //Если переменная hours передана ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
       //Если это запрос на обновление, то обновляем
       if (isset($_GET['red_hoursid'])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
           $hours = trim($_POST["hours"]);

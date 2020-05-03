@@ -1,7 +1,6 @@
 <?php  
-ini_set('display_errors',1);
-error_reporting(E_ALL);
-    include('ConnectDB.php');
+    //ini_set('display_errors',1);
+    //error_reporting(E_ALL);
     //Если переменная service_name передана
     if (isset($_POST["service_name"])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
       //Если это запрос на обновление, то обновляем
