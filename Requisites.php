@@ -1,26 +1,29 @@
 <?php    //Если переменная requisites передана
-    if (isset($_POST["requisites"])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
-      //Если это запрос на обновление, то обновляем
-      if (isset($_GET['red_requisitesid'])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
-          $requisites = trim($_POST["requisites"]);
-          $id = trim($_GET['red_requisitesid']); 
-          $sql = "UPDATE `requisites` SET requisites=? WHERE req_ID=?";
-          $query = $pdo->prepare($sql);
-          $query->execute(array($requisites, $id));
-          redirect_to('/index.php');
-      } 
+//Валидация переменных
+if($_POST["requisites"]) {
 
-      else {//Если НЕ запрос на обновление, то добавляем новую запись
-          $sql = ("INSERT INTO requisites (requisites) VALUES (:requisites)");
-          $requisites = trim($_POST["requisites"]);
-          $params = [':requisites' => $requisites];
-          $query = $pdo->prepare($sql);
-          $query->execute($params);
-          redirect_to('/index.php');
-      }
+    $hours = clean($_POST["requisites"]);
 
+    if (empty($_POST["requisites"])) {
+        $msg = "Введите корректный режим работы";
+    } else {
+        if (isset($_GET['red_requisitesid'])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
+            $requisites = trim($_POST["requisites"]);
+            $id = trim($_GET['red_requisitesid']);
+            $sql = "UPDATE `requisites` SET requisites=? WHERE req_ID=?";
+            $query = $pdo->prepare($sql);
+            $query->execute(array($requisites, $id));
+            redirect_to('/index.php');
+        } else {//Если НЕ запрос на обновление, то добавляем новую запись
+            $sql = ("INSERT INTO requisites (requisites) VALUES (:requisites)");
+            $requisites = trim($_POST["requisites"]);
+            $params = [':requisites' => $requisites];
+            $query = $pdo->prepare($sql);
+            $query->execute($params);
+            redirect_to('/index.php');
+        }
     }
-
+}
     if (isset($_GET['del_requisitesid'])) {//Удалем уже существующую запись
     $id = trim($_GET['del_requisitesid']); 
     $sql = "DELETE FROM requisites WHERE req_ID=?";

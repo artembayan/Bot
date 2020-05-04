@@ -1,25 +1,29 @@
 <?php
-    if (isset($_POST["hours"])) { //Если переменная hours передана ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
-      //Если это запрос на обновление, то обновляем
-      if (isset($_GET['red_hoursid'])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
-          $hours = trim($_POST["hours"]);
-          $id = trim($_GET['red_hoursid']); 
-          $sql = "UPDATE `working_hours` SET hours=? WHERE hours_ID=?";
-          $query = $pdo->prepare($sql);
-          $query->execute(array($hours, $id));
-          redirect_to('/index.php');
-      } 
+//Валидация переменных
+if($_POST["hours"]) {
 
-      else {//Если НЕ запрос на обновление, то добавляем новую запись
-          $sql = ("INSERT INTO working_hours (hours) VALUES (:hours)");
-          $hours = trim($_POST["hours"]);
-          $params = [':hours' => $hours];
-          $query = $pdo->prepare($sql);
-          $query->execute($params);
-          redirect_to('/index.php');
-      }
+    $hours = clean($_POST["hours"]);
 
+    if (empty($_POST["hours"])) {
+        $msg = "Введите корректный режим работы";
     }
+    else {
+        //Если это запрос на обновление, то обновляем
+        if (isset($_GET['red_hoursid'])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
+            $id = trim($_GET['red_hoursid']);
+            $sql = "UPDATE `working_hours` SET hours=? WHERE hours_ID=?";
+            $query = $pdo->prepare($sql);
+            $query->execute(array($hours, $id));
+            redirect_to('/index.php');
+        } else {//Если НЕ запрос на обновление, то добавляем новую запись
+            $sql = ("INSERT INTO working_hours (hours) VALUES (:hours)");
+            $params = [':hours' => $hours];
+            $query = $pdo->prepare($sql);
+            $query->execute($params);
+            redirect_to('/index.php');
+        }
+    }
+}
 
     if (isset($_GET['del_hoursid'])) {//Удалем уже существующую запись
     $id = trim($_GET['del_hoursid']); 

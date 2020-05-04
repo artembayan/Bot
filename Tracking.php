@@ -1,32 +1,37 @@
 <?php
-//Если переменная employee передана
-    if (isset($_POST["employee"])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
-      //Если это запрос на обновление, то обновляем
-      if (isset($_GET['red_trackid'])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
-          $employee = trim($_POST["employee"]);
-          $service = trim($_POST["service"]);
-          $id = trim($_GET['red_trackid']);
-          $status = trim($_POST["status"]);
-          $ready_date = trim($_POST["ready_date"]); 
-          $sql = "UPDATE tracking SET service=?, employee=?, status=?, ready_date=? WHERE order_ID=?";
-          $query = $pdo->prepare($sql);
-          $query->execute(array($service, $employee, $status, $ready_date, $id));
-          redirect_to('/index.php');
-      } 
+//Валидация переменных
+if($_POST["employee"] || $_POST["service"] || $_POST["status"] || $_POST["ready_date"]) {
 
-      else {//Если НЕ запрос на обновление, то добавляем новую запись
-          $sql = ("INSERT INTO tracking (service, employee, status, ready_date) VALUES (:service, :employee, :status, :ready_date)");
-          $employee = trim($_POST["employee"]);
-          $service = trim($_POST["service"]);
-          $status = trim($_POST["status"]);
-          $ready_date = trim($_POST["ready_date"]);
-          $params = [':service' => $service, ':employee' => $employee, ':status'=>$status, ':ready_date'=>$ready_date];
-          $query = $pdo->prepare($sql);
-          $query->execute($params);
-          redirect_to('/index.php');
-      }
+    $employee = clean($_POST["employee"]);
+    $service = clean($_POST["service"]);
+    $status = clean($_POST["status"]);
+    $ready_date = clean($_POST["ready_date"]);
+
+    if (empty($_POST["status"])) {
+        $msg = "Введите корректный статус заказа";
+    } elseif (!isset($_POST["ready_date"]) || check_length($_POST["ready_date"], 11)) {
+        $msg = "Введите корректную дату выполнения заказа";
+    } else {
+        //Если это запрос на обновление, то обновляем
+        if (isset($_GET['red_trackid'])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
+            $id = trim($_GET['red_trackid']);
+            $sql = "UPDATE tracking SET service=?, employee=?, status=?, ready_date=? WHERE order_ID=?";
+            $query = $pdo->prepare($sql);
+            $query->execute(array($service, $employee, $status, $ready_date, $id));
+            redirect_to('/index.php');
+        } else {//Если НЕ запрос на обновление, то добавляем новую запись
+            $sql = ("INSERT INTO tracking (service, employee, status, ready_date) VALUES (:service, :employee, :status, :ready_date)");
+            $employee = trim($_POST["employee"]);
+            $service = trim($_POST["service"]);
+            $status = trim($_POST["status"]);
+            $ready_date = trim($_POST["ready_date"]);
+            $params = [':service' => $service, ':employee' => $employee, ':status' => $status, ':ready_date' => $ready_date];
+            $query = $pdo->prepare($sql);
+            $query->execute($params);
+            redirect_to('/index.php');
+        }
     }
-
+}
     if (isset($_GET['del_trackid'])) {//Удалем уже существующую запись
     $id = trim($_GET['del_trackid']); 
     $sql = "DELETE FROM tracking WHERE order_ID=?";
@@ -50,13 +55,13 @@
 
     <table>
       <tr>
-      <td><input type="text" name="status" placeholder="Статус" class="form-control" value="<?= isset($_GET['red_trackid']) ? $track['status'] : ''; ?>"></td>
+      <td><input type="text" name="status" placeholder="Статус" class="form-control" value="<?= isset($_GET['red_trackid']) ? $track['status'] : $status; ?>"></td>
       </tr>
       <tr>
-      <td><input type="date" name="ready_date" placeholder="Дата готовности ГГГГ-ММ-ДД" class="form-control" value="<?= isset($_GET['red_trackid']) ? $track['ready_date'] : ''; ?>"></td>
+      <td><input type="date" name="ready_date" placeholder="Дата готовности ГГГГ-ММ-ДД" class="form-control" value="<?= isset($_GET['red_trackid']) ? $track['ready_date'] : $ready_date; ?>"></td>
       </tr>
     <tr>
-    <td><select class="form-control" name="employee" size="1" value="<?= isset($_GET['red_trackid']) ? $track['employee'] : ''; ?>">
+    <td><select class="form-control" name="employee" size="1" value="<?= isset($_GET['red_trackid']) ? $track['employee'] : $employee; ?>">
       <option disabled>Выберите исполнителя</option>
       <?php 
       $sql = $pdo->query('SELECT staff_ID, FIO FROM staff');
@@ -93,6 +98,7 @@
   </thead>
     <br/>
 <?php
+    echo $msg;
       $sql = $pdo->query('SELECT * FROM services join tracking ON services.service_ID = tracking.service join staff ON staff.staff_ID = tracking.employee');
       while ($result = $sql->fetch()) {//Заполнение полей таблицы данными из БД
         echo '<tr>' .

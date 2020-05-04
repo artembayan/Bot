@@ -1,31 +1,36 @@
 <?php
-    //Если переменная name передана
-    if (isset($_POST["name"])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
-      //Если это запрос на обновление, то обновляем
-      if (isset($_GET['red_courseid'])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
-          $id = trim($_GET['red_courseid']); 
-          $name = trim($_POST["name"]);
-          $price = trim($_POST["price"]);
-          $schedule = trim($_POST["schedule"]);
-          $teacher = trim($_POST["teacher"]);
-          $sql = "UPDATE courses SET name=?, price=?, schedule=?, teacher=?  WHERE course_ID=?";
-          $query = $pdo->prepare($sql);
-          $query->execute(array($name, $price, $schedule, $teacher, $id));
-          redirect_to('/index.php');
-      } 
+    //Валидация переменных
+    if($_POST["name"] || $_POST["price"]) {
 
-      else {//Если НЕ запрос на обновление, то добавляем новую запись
-          $sql = ("INSERT INTO courses (name, price, schedule, teacher) VALUES (:name, :price, :schedule, :teacher)");
-          $name = trim($_POST["name"]);
-          $price = trim($_POST["price"]);
-          $schedule = trim($_POST["schedule"]);
-          $teacher = trim($_POST["teacher"]);
-          $params = [':name' => $name, ':price' => $price, ':schedule' => $schedule, ':teacher' => $teacher];
-          $query = $pdo->prepare($sql);
-          $query->execute($params);
-          redirect_to('/index.php');
-      }
+        $name = clean($_POST["name"]);
+        $price = clean($_POST["price"]);
+        $schedule = clean($_POST["schedule"]);
+        $teacher = clean($_POST["teacher"]);
 
+        if (empty($_POST["name"]) || check_length($_POST["name"], 30)) {
+            $msg = "Введите корректное название";
+        } elseif (!isset($_POST["price"]) || check_length($_POST["price"], 10) || !is_numeric($_POST["price"])) {
+            $msg = "Введите корректную цену";
+        } else {
+            //Если это запрос на обновление, то обновляем
+            if (isset($_GET['red_courseid'])) {//ОСТАВИТЬ ИЛИ ПОМЕНЯТЬ НА !empty
+                $id = trim($_GET['red_courseid']);
+                $sql = "UPDATE courses SET name=?, price=?, schedule=?, teacher=?  WHERE course_ID=?";
+                $query = $pdo->prepare($sql);
+                $query->execute(array($name, $price, $schedule, $teacher, $id));
+                redirect_to('/index.php');
+            } else {//Если НЕ запрос на обновление, то добавляем новую запись
+                $sql = ("INSERT INTO courses (name, price, schedule, teacher) VALUES (:name, :price, :schedule, :teacher)");
+                $name = trim($_POST["name"]);
+                $price = trim($_POST["price"]);
+                $schedule = trim($_POST["schedule"]);
+                $teacher = trim($_POST["teacher"]);
+                $params = [':name' => $name, ':price' => $price, ':schedule' => $schedule, ':teacher' => $teacher];
+                $query = $pdo->prepare($sql);
+                $query->execute($params);
+                redirect_to('/index.php');
+            }
+        }
     }
 
     if (isset($_GET['del_courseid'])) {//Удалем уже существующую запись
@@ -50,10 +55,10 @@
    <form action="" method="post">
     <table>
       <tr>
-      <td><input type="text" name="name" placeholder="Наименование курса" class="form-control" value="<?= isset($_GET['red_courseid']) ? $course['name'] : ''; ?>"></td>
+      <td><input type="text" name="name" placeholder="Наименование курса" class="form-control" value="<?= isset($_GET['red_courseid']) ? $course['name'] : $name; ?>"></td>
       </tr>
       <tr>
-        <td><input type="text" name="price" size="2" placeholder="Стоимость курса" class="form-control" value="<?= isset($_GET['red_courseid']) ? $course['price'] : ''; ?>">
+        <td><input type="text" name="price" size="2" placeholder="Стоимость курса" class="form-control" value="<?= isset($_GET['red_courseid']) ? $course['price'] : $price; ?>">
         </td>   
       </tr>
       <tr>
@@ -88,9 +93,9 @@
   </thead>
     <br/>
 <?php
-      $sql1 = $pdo->query('SELECT * FROM staff RIGHT JOIN courses ON staff.staff_ID=courses.teacher');
-      $sql = $pdo->query('SELECT course_ID, name, price, schedule, teacher FROM courses');
-      while ($result = $sql1->fetch()) {//Заполнение полей таблицы данными из БД
+    echo $msg;
+      $sql = $pdo->query('SELECT * FROM staff RIGHT JOIN courses ON staff.staff_ID=courses.teacher');
+      while ($result = $sql->fetch()) {//Заполнение полей таблицы данными из БД
         echo '<tr>' .
              //"<td>{$result['course_ID']}</td>" .
              "<td>{$result['name']}</td>" .

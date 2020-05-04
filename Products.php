@@ -1,6 +1,6 @@
-    <?php
+<?php
     //Валидация переменных
-    if(count($_POST) > 0){
+    if($_POST["Name"] || $_POST["Price"]){
 
         $name = clean($_POST["Name"]);
         $price = clean($_POST["Price"]);
@@ -54,7 +54,7 @@
             <table>
                 <tr>
 
-                    <td><input type="text" name="Name" placeholder="Наименование изделия" class="form-control" value="<?= isset($_GET['red_id']) ? $product['Price'] : $name; ?>"></td>
+                    <td><input type="text" name="Name" placeholder="Наименование изделия" class="form-control" value="<?= isset($_GET['red_id']) ? $product['Name'] : $name; ?>"></td>
                 </tr>
                 <tr>
                     <td><input type="text" name="Price" size="2" placeholder="Стоимость изделия" class="form-control" value="<?= isset($_GET['red_id']) ? $product['Price'] : $price; ?>">
@@ -77,17 +77,16 @@
 
 
 <?php
-
-
-      $sql = $pdo->query('SELECT `product_ID`, `Name`, `Price` FROM products');
-      while ($result = $sql->fetch()) {//Заполнение полей таблицы данными из БД
+    echo $msg;
+    $sql = $pdo->query('SELECT `product_ID`, `Name`, `Price` FROM products');
+    while ($result = $sql->fetch()) {//Заполнение полей таблицы данными из БД
         echo '<tr>' .
-             //"<td>{$result['ID']}</td>" .
-             "<td>{$result['Name']}</td>" .
-             "<td>{$result['Price']} ₽</td>" .
-             "<td><a style=\"text-decoration: none;\" href='?del_id={$result['product_ID']}'><button class=\"btn btn-outline-danger\" style=\"display: flex; margin: auto;\">Удалить</button></a></td>" .
-             "<td><a  style=\"text-decoration: none;\" href='?red_id={$result['product_ID']}'><button class=\"btn btn-outline-info\" style=\"display: flex; margin: auto;\">Изменить</button></a></td>" .
-             '</tr>';
+        //"<td>{$result['ID']}</td>" .
+        "<td>{$result['Name']}</td>" .
+        "<td>{$result['Price']} ₽</td>" .
+        "<td><a style=\"text-decoration: none;\" href='?del_id={$result['product_ID']}'><button class=\"btn btn-outline-danger\" style=\"display: flex; margin: auto;\">Удалить</button></a></td>" .
+        "<td><a  style=\"text-decoration: none;\" href='?red_id={$result['product_ID']}'><button class=\"btn btn-outline-info\" style=\"display: flex; margin: auto;\">Изменить</button></a></td>" .
+        '</tr>';
       }
 ?>
   </table>
