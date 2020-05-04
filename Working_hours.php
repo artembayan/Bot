@@ -63,6 +63,7 @@ if($_POST["hours"]) {
   </thead>
     <br/>
 <?php
+    echo $msg;
       $sql = $pdo->query('SELECT hours_ID, hours FROM working_hours');
       while ($result = $sql->fetch()) {//Заполнение полей таблицы данными из БД
         echo '<tr>' .

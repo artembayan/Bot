@@ -21,10 +21,6 @@
                 redirect_to('/index.php');
             } else {//Если НЕ запрос на обновление, то добавляем новую запись
                 $sql = ("INSERT INTO courses (name, price, schedule, teacher) VALUES (:name, :price, :schedule, :teacher)");
-                $name = trim($_POST["name"]);
-                $price = trim($_POST["price"]);
-                $schedule = trim($_POST["schedule"]);
-                $teacher = trim($_POST["teacher"]);
                 $params = [':name' => $name, ':price' => $price, ':schedule' => $schedule, ':teacher' => $teacher];
                 $query = $pdo->prepare($sql);
                 $query->execute($params);

@@ -19,12 +19,9 @@ if($_POST["employee"] || $_POST["service"] || $_POST["status"] || $_POST["ready_
             $query = $pdo->prepare($sql);
             $query->execute(array($service, $employee, $status, $ready_date, $id));
             redirect_to('/index.php');
-        } else {//Если НЕ запрос на обновление, то добавляем новую запись
+        }
+        else {//Если НЕ запрос на обновление, то добавляем новую запись
             $sql = ("INSERT INTO tracking (service, employee, status, ready_date) VALUES (:service, :employee, :status, :ready_date)");
-            $employee = trim($_POST["employee"]);
-            $service = trim($_POST["service"]);
-            $status = trim($_POST["status"]);
-            $ready_date = trim($_POST["ready_date"]);
             $params = [':service' => $service, ':employee' => $employee, ':status' => $status, ':ready_date' => $ready_date];
             $query = $pdo->prepare($sql);
             $query->execute($params);

@@ -63,6 +63,7 @@ if($_POST["requisites"]) {
   </thead>
     <br/>
 <?php
+    echo $msg;
       $sql = $pdo->query('SELECT req_ID, requisites FROM requisites');
       while ($result = $sql->fetch()) {//Заполнение полей таблицы данными из БД
         echo '<tr>' .
