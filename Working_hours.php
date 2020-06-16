@@ -42,7 +42,7 @@ if($_POST["hours"]) {
     }*/
 ?>
 <div>
-<p><b>Режим работы ЦМИТ</b></p>
+<p><b>Режим работы ЦМИТ и ЦДОД</b></p>
    <form action="" method="post">
     <table>
       <tr>

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection SqlDialectInspection */
 //Валидация переменных
 if($_POST["FIO"] || $_POST["post"]) {
 
@@ -57,7 +57,7 @@ if($_POST["FIO"] || $_POST["post"]) {
 ?>
 
 <div>
-<p><b>Контакты сотрудников ЦМИТ</b></p>
+<p><b>Контакты сотрудников ЦМИТ и ЦДОД</b></p>
    <form action="" method="post">
     <table>
       <tr>

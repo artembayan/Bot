@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 17 2020 г., 00:37
--- Версия сервера: 10.3.13-MariaDB-log
--- Версия PHP: 7.1.32
+-- Время создания: Июн 11 2020 г., 19:26
+-- Версия сервера: 10.3.22-MariaDB-log
+-- Версия PHP: 7.1.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -53,7 +52,7 @@ INSERT INTO `courses` (`course_ID`, `name`, `price`, `schedule`, `teacher`) VALU
 
 CREATE TABLE `products` (
   `product_ID` int(11) NOT NULL,
-  `Name` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `Name` varchar(50) CHARACTER SET utf8 NOT NULL,
   `Price` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -62,9 +61,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_ID`, `Name`, `Price`) VALUES
-(1, 'Изделие#1', 2650),
-(2, 'Изделие#2', 1500),
-(3, 'Изделие#3', 3500);
+(108, 'Изделие#2', 2500),
+(109, 'Изделие#3', 3000),
+(130, 'Изделие#4', 3500);
 
 -- --------------------------------------------------------
 
@@ -82,7 +81,7 @@ CREATE TABLE `requisites` (
 --
 
 INSERT INTO `requisites` (`req_ID`, `requisites`) VALUES
-(1, 'ИНН: 3444262162\r\n\r\nКПП: 344401001\r\n\r\nОКПО: 06022534\r\n\r\nОГРН: 1163443083759\r\n\r\nОКФС: 41 - Смешанная российская собственность с долей федеральной собственности\r\n\r\nОКОГУ: 4210014 - Организации, учрежденные юридическими лицами или гражданами, или юридическими лицами и гражданами совместно\r\n\r\nОКОПФ: 12300 - Общества с ограниченной ответственностью\r\n\r\nОКТМО: 18701000001\r\n\r\nОКАТО: 18401395 - Центральный, Волгоград, Города областного подчинения Волгоградской области, Волгоградская область');
+(3, 'ИНН: 3444262162 \r\nКПП: 344401001 \r\nОКПО: 06022534 \r\nОГРН: 1163443083759 \r\nОКФС: 41 - Смешанная российская собственность с долей федеральной собственности \r\nОКОГУ: 4210014 - Организации, учрежденные юридическими лицами или гражданами, или юридическими лицами и гражданами совместно\r\nОКОПФ: 12300 - Общества с ограниченной ответственностью\r\nОКТМО: 18701000001\r\nОКАТО: 18401395 - Центральный, Волгоград, Города областного подчинения Волгоградской области, Волгоградская область');
 
 -- --------------------------------------------------------
 
@@ -92,7 +91,7 @@ INSERT INTO `requisites` (`req_ID`, `requisites`) VALUES
 
 CREATE TABLE `services` (
   `service_ID` int(11) NOT NULL,
-  `service_name` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `service_name` varchar(50) CHARACTER SET utf8 NOT NULL,
   `service_price` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -102,8 +101,8 @@ CREATE TABLE `services` (
 
 INSERT INTO `services` (`service_ID`, `service_name`, `service_price`) VALUES
 (1, 'Прототипирование', 2600),
-(2, 'Сканирование', 3200),
-(3, 'Восстановление детали', 1500);
+(11, 'Сканирование', 2500),
+(14, 'Восстановление детали', 3000);
 
 -- --------------------------------------------------------
 
@@ -147,8 +146,10 @@ CREATE TABLE `tracking` (
 --
 
 INSERT INTO `tracking` (`order_ID`, `service`, `employee`, `status`, `ready_date`) VALUES
-(2, 2, 3, 'В разработке', '2020-03-15'),
-(3, 1, 4, 'Готово к выдаче', '2020-02-18');
+(2, NULL, 4, 'В разработке', '2020-03-15'),
+(3, 1, 2, 'Готово к выдаче', '2020-02-18'),
+(4, 11, 3, 'В разработке', '2020-03-12'),
+(15, 11, 4, 'Изготавливается', '2020-05-16');
 
 -- --------------------------------------------------------
 
@@ -225,43 +226,43 @@ ALTER TABLE `working_hours`
 -- AUTO_INCREMENT для таблицы `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT для таблицы `requisites`
 --
 ALTER TABLE `requisites`
-  MODIFY `req_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `req_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `services`
 --
 ALTER TABLE `services`
-  MODIFY `service_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `service_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT для таблицы `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `staff_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `staff_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT для таблицы `tracking`
 --
 ALTER TABLE `tracking`
-  MODIFY `order_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `order_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT для таблицы `working_hours`
 --
 ALTER TABLE `working_hours`
-  MODIFY `hours_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `hours_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

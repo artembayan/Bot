@@ -42,7 +42,7 @@ if($_POST["requisites"]) {
 ?>
 
 <div>
-<p><b>Реквизиты ЦМИТ</b></p>
+<p><b>Реквизиты ЦМИТ и ЦДОД</b></p>
    <form action="" method="post">
     <table>
       <tr>

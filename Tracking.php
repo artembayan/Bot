@@ -55,7 +55,7 @@ if($_POST["employee"] || $_POST["service"] || $_POST["status"] || $_POST["ready_
       <td><input type="text" name="status" placeholder="Статус" class="form-control" value="<?= isset($_GET['red_trackid']) ? $track['status'] : $status; ?>"></td>
       </tr>
       <tr>
-      <td><input type="date" name="ready_date" placeholder="Дата готовности ГГГГ-ММ-ДД" class="form-control" value="<?= isset($_GET['red_trackid']) ? $track['ready_date'] : $ready_date; ?>"></td>
+      <td><input type="date" name="ready_date" placeholder="Дата готовности" class="form-control" value="<?= isset($_GET['red_trackid']) ? $track['ready_date'] : $ready_date; ?>"></td>
       </tr>
     <tr>
     <td><select class="form-control" name="employee" size="1" value="<?= isset($_GET['red_trackid']) ? $track['employee'] : $employee; ?>">

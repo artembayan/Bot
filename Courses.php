@@ -47,7 +47,7 @@
 ?>
 
 <div>
-<p><b>Курсы ЦМИТ</b></p>
+<p><b>Курсы ЦДОД</b></p>
    <form action="" method="post">
     <table>
       <tr>
